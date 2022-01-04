@@ -1,0 +1,76 @@
+html {
+    background-color: rgba(0,0,0,.8);
+    font-family: monospace;
+    font-size: 16px;
+}
+
+.main {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    text-align: center;
+}
+
+.header h1 {
+    margin: 1rem;
+    padding: 1rem;
+}
+
+.header h3 {
+    margin: .2rem;
+}
+
+.main h1 {
+    font-size: 50px;
+}
+
+.game-area {
+    margin: 2rem;
+    border-radius: 5px;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: space-around;
+}
+
+.game-box {
+    margin-top: 1rem;
+}
+
+.text-to-type {
+    background-color: rgba(0,0,0,.2);
+    text-align: left;
+    padding: 1rem;
+    width: 20rem;
+}
+
+.text-input textarea {
+    background-color: rgba(0,0,0,.2);
+    min-height: 20rem;
+    min-width: 20rem;
+    padding: 1rem;
+    font-size: 1rem;
+}
+
+.results-section {
+    display: none;
+}
+
+.timer-container {
+    margin: 1rem;
+    width: 100%;
+}
+
+#timer {
+    color: green;
+    font-size: 1.5rem;
+}
+
+.correct {
+    color: green;
+}
+
+.incorrect {
+    color: red;
+}
