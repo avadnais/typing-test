@@ -1001,9 +1001,10 @@ const allWords = [
     "yourself",
 ];
 
+
 /* Timer section */
 
-const TIME_LIMIT = 30;
+const TIME_LIMIT = 30; //in seconds
 
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
@@ -1011,8 +1012,15 @@ let timerInterval = null;
 
 const textInput = document.getElementById("text-input");
 const timer = document.getElementById("timer");
-const results = document.getElementById("results");
+const resultsSection = document.getElementById("results-section");
 const gameArea = document.getElementById("game-area");
+const goAgain = document.getElementById("go-again");
+
+let highScoreResult = {
+    'wpm': 0,
+    'accuracy': 0,
+    'netWpm': 0
+}
 
 function formatTime(time) {
     let prettyTime = "";
@@ -1031,28 +1039,31 @@ function startTimer() {
 
         timer.innerHTML = `<h3>${formatTime(timeLeft)}</h3>`;
 
-        if (timeLeft === 10) {
-            setOrange(timer);
-        }
+        if (timeLeft === 10) under10();
+        if (timeLeft === 5) under5();
+        if (timeLeft === 0) onTimesUp();
 
-        if (timeLeft === 0) {
-            onTimesUp();
-        }
     }, 1000);
 }
 
+function under10() {
+    setOrange(timer);
+}
+function under5() {
+    //timer.innerHTML = <;
+}
+
 function setOrange() {
-    timer.style.color = "rgb(255,139,61)";
+    timer.style.color = "orange";
 }
 
 function onTimesUp() {
     clearInterval(timerInterval);
-    clearInterval(checkerInterval);
 
     timer.innerHTML = "<h3>0:00</h3>";
-    timer.style.color = "rgb(255,61,61)";
+    timer.style.color = "#ff1a1a";
     textInput.style.display = 'none';
-    results.style.display = 'block';
+    resultsSection.style.display = 'flex';
     gameArea.style.justifyContent = 'center';
 
 
@@ -1060,9 +1071,12 @@ function onTimesUp() {
     let accuracy = calculateAccuracy(textInput.value.split(' '), wordsToTypeArr).toPrecision(3);
     let netWpm = calculateNetWPM(wpm, accuracy);
 
-    document.getElementById("wpm").innerHTML = `<p id="wpm">wpm: ${calculateWPM(textInput.value)}</p>`;
-    document.getElementById("accuracy").innerHTML = `<p id="accuracy">accuracy: ${calculateAccuracy(textInput.value.split(' '), wordsToTypeArr).toPrecision(3)}%</p>`;
-    document.getElementById("net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${netWpm}</p>`
+    let result = {'wpm': wpm, 'accuracy': accuracy, 'netWpm': netWpm};
+    isNewHighScore(result);
+    showResults(result);
+
+    document.getElementById("button-container").style.display= 'flex';
+    document.getElementById("text-input-container").style.margin = "0";
 
 }
 
@@ -1093,20 +1107,10 @@ function arrAsString(arr) {
 let wordsToTypeArr = getRandomWords(100);
 let wordsToTypeStr = arrAsString(wordsToTypeArr);
 
-const textToType = document.getElementById("text-to-type");
+let textToType = document.getElementById("text-to-type");
 textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
 
 /* Character checking */
-
-let checkerInterval = null;
-
-/* function startComparingText() {
-
-    checkerInterval = setInterval(() => {
-        textInput.removeEventListener("keydown", startComparingText);
-        textToType.innerHTML = checkCorrect(textInput.value, wordsToTypeStr);
-    }, 100)
-} */
 
 function checkCorrect() {
     let actual = textInput.value.split(' ');
@@ -1158,6 +1162,58 @@ function logKey() {
     console.log(textInput.value);
 }
 
+/* Results */
+
+function isNewHighScore(res){
+    if(res['netWpm'] > highScoreResult['netWpm'])
+        highScoreResult = res;
+}
+
+function showResults(res) {
+    document.getElementById("wpm").innerHTML = `<p id="wpm">wpm: ${res['wpm']}</p>`;
+    document.getElementById("accuracy").innerHTML = `<p id="accuracy">accuracy: ${res['accuracy']}%</p>`;
+    document.getElementById("net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${res['netWpm']}</p>`;
+
+    document.getElementById("best-wpm").innerHTML = `<p id="wpm">wpm: ${highScoreResult['wpm']}</p>`;
+    document.getElementById("best-accuracy").innerHTML = `<p id="accuracy">accuracy: ${highScoreResult['accuracy']}%</p>`;
+    document.getElementById("best-net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${highScoreResult['netWpm']}</p>`;
+}
+
+/* New game */
+
+function startGame() {
+    textInput.removeEventListener("keydown", startGame);
+    startTimer();
+}
+
+function resetGame() {
+    textInput.style.display = null;
+    textInput.value = "";
+
+    getNewWords();
+    resetTimer();
+
+    document.getElementById("text-input-container").style.margin = "";
+    
+    textInput.addEventListener("keydown", startGame);
+
+}
+
+function resetTimer() {
+    timer.innerHTML = '<h3 id="timer">0:30</h3>';
+    timer.style.color = "green";
+    timeLeft = TIME_LIMIT;
+    timePassed = 0;
+    timerInterval = null;
+}
+
+function getNewWords() {
+    wordsToTypeArr = getRandomWords(100);
+    wordsToTypeStr = arrAsString(wordsToTypeArr);
+    textToType = document.getElementById("text-to-type");
+    textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
+}
+
 /* Listeners */
 
 const keyAction = {
@@ -1170,8 +1226,6 @@ function keyHandler(event) {
     keyAction[event.key][event.type]();
 }
 
+textInput.addEventListener("keydown", startGame);
 textInput.addEventListener("keydown", keyHandler);
-textInput.addEventListener("keydown", startTimer);
-/* textInput.addEventListener("keydown", startComparingText); */
-
-
+goAgain.onclick = resetGame;

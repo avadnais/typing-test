@@ -1,7 +1,8 @@
 html {
     background-color: rgba(0,0,0,.7);
+
     font-family: monospace;
-    font-size: 16px;
+    font-size: 20px;
 }
 
 .main {
@@ -24,16 +25,13 @@ html {
 }
 
 .game-area {
-    margin: 2rem;
-    border-radius: 5px;
     display: flex;
     flex-flow: row wrap;
     justify-content: space-around;
 }
 
 .game-box {
-    margin-top: 1rem;
-    
+    margin: 0 1rem;
 }
 
 .text-to-type {
@@ -53,6 +51,8 @@ html {
 
 .results-section {
     display: none;
+    min-width: 20%;
+    justify-content: space-around;
 }
 
 .timer-container {
@@ -70,6 +70,34 @@ html {
 }
 
 .incorrect {
-    color: red;
+    color: #ff1a1a;
 }
 
+#button-container {
+    display: none;
+    width: 100%;
+    justify-content: center;
+    margin-top: 0;
+}
+
+button {
+    background-color: green;
+    font-family: monospace;
+    font-size: 18px;
+    display: block;
+    
+}
+
+.result {
+    margin: 1rem 1rem 0 1rem;
+    width: 50%;
+}
+
+.result h3 {
+    font-weight: bold;
+}
+
+#net-wpm {
+    color: yellow;
+    opacity: .7;
+}
