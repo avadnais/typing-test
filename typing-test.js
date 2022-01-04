@@ -1003,7 +1003,7 @@ const allWords = [
 
 /* Timer section */
 
-const TIME_LIMIT = 10;
+const TIME_LIMIT = 30;
 
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
@@ -1054,7 +1054,7 @@ function onTimesUp() {
     textInput.style.display = 'none';
     results.style.display = 'block';
     gameArea.style.justifyContent = 'center';
-    
+
 
     let wpm = calculateWPM(textInput.value);
     let accuracy = calculateAccuracy(textInput.value.split(' '), wordsToTypeArr).toPrecision(3);
@@ -1062,7 +1062,7 @@ function onTimesUp() {
 
     document.getElementById("wpm").innerHTML = `<p id="wpm">wpm: ${calculateWPM(textInput.value)}</p>`;
     document.getElementById("accuracy").innerHTML = `<p id="accuracy">accuracy: ${calculateAccuracy(textInput.value.split(' '), wordsToTypeArr).toPrecision(3)}%</p>`;
-    document.getElementById("net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${calculateNetWPM()}</p>`
+    document.getElementById("net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${netWpm}</p>`
 
 }
 
@@ -1123,13 +1123,13 @@ function checkCorrect() {
         } else {
             checked = checked + " <span class='incorrect'>" + expected[i] + "</span> ";
         }
-        temp = " <span style='color: green' class='correct'> "+ checked + "</span> " + expected.slice(++j).toString().replaceAll(",", " ");
+        temp = " <span style='color: green' class='correct'> " + checked + "</span> " + expected.slice(++j).toString().replaceAll(",", " ");
     }
     console.log(checked)
     if (temp != "") {
         textToType.innerHTML = temp;
     }
-    else{
+    else {
         textToType.innerHTML = actual;
         return actual;
     }
@@ -1139,7 +1139,8 @@ function calculateAccuracy(text1, text2) {
     var total = text1.length;
     var correct = 0;
     for (i in text1) {
-        if (text1[i] == text2[i]) {
+        if (text1[i] === '') total--;
+        else if (text1[i] == text2[i]) {
             correct++;
         }
     }
@@ -1147,11 +1148,11 @@ function calculateAccuracy(text1, text2) {
 }
 
 function calculateWPM(text) {
-    return text.length / 5 * 2;
+    return (text.length / 5 * (60 / TIME_LIMIT)).toPrecision(3);
 }
 
 function calculateNetWPM(wpm, accuracy) {
-    return (wpm * accuracy).toPrecision(3);
+    return (wpm * accuracy).toPrecision(3) / 100;
 }
 
 function logKey() {
@@ -1161,7 +1162,7 @@ function logKey() {
 /* Listeners */
 
 const keyAction = {
-    ' ': {keydown: checkCorrect},
+    ' ': { keydown: checkCorrect },
 }
 
 function keyHandler(event) {
