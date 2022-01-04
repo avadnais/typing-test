@@ -1,5 +1,5 @@
 html {
-    background-color: rgba(0,0,0,.8);
+    background-color: rgba(0,0,0,.7);
     font-family: monospace;
     font-size: 16px;
 }
@@ -36,6 +36,7 @@ html {
 
 .game-box {
     margin-top: 1rem;
+    
 }
 
 .text-to-type {
@@ -74,3 +75,4 @@ html {
 .incorrect {
     color: red;
 }
+
