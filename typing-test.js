@@ -1125,7 +1125,6 @@ function checkCorrect() {
         }
         temp = " <span style='color: green' class='correct'> " + checked + "</span> " + expected.slice(++j).toString().replaceAll(",", " ");
     }
-    console.log(checked)
     if (temp != "") {
         textToType.innerHTML = temp;
     }
@@ -1166,8 +1165,6 @@ const keyAction = {
 }
 
 function keyHandler(event) {
-    console.log(textInput.value.split(' '))
-    console.log(`event.key=${event.key} event.type=${event.type}`);
     if (!(event.key in keyAction) || !(event.type in keyAction[event.key]))
         return;
     keyAction[event.key][event.type]();
