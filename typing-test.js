@@ -1003,7 +1003,7 @@ const allWords = [
 
 /* Timer section */
 
-const TIME_LIMIT = 30;
+const TIME_LIMIT = 10;
 
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
@@ -1013,9 +1013,6 @@ const textInput = document.getElementById("text-input");
 const timer = document.getElementById("timer");
 const results = document.getElementById("results");
 const gameArea = document.getElementById("game-area");
-const accuracy = document.getElementById("accuracy");
-const wpm = document.getElementById("wpm");
-
 
 function formatTime(time) {
     let prettyTime = "";
@@ -1057,9 +1054,15 @@ function onTimesUp() {
     textInput.style.display = 'none';
     results.style.display = 'block';
     gameArea.style.justifyContent = 'center';
-    console.log('we made it')
-    wpm.innerHTML = `<p id="wpm">wpm: ${calculateWPM(textInput.value, textToType)}</p>`;
-    accuracy.innerHTML = `<p id="accuracy">accuracy: ${calculateAccuracy(textInput.value, wordsToTypeStr).toPrecision(3)}%</p>`;
+    
+
+    let wpm = calculateWPM(textInput.value);
+    let accuracy = calculateAccuracy(textInput.value.split(' '), wordsToTypeArr).toPrecision(3);
+    let netWpm = calculateNetWPM(wpm, accuracy);
+
+    document.getElementById("wpm").innerHTML = `<p id="wpm">wpm: ${calculateWPM(textInput.value)}</p>`;
+    document.getElementById("accuracy").innerHTML = `<p id="accuracy">accuracy: ${calculateAccuracy(textInput.value.split(' '), wordsToTypeArr).toPrecision(3)}%</p>`;
+    document.getElementById("net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${calculateNetWPM()}</p>`
 
 }
 
@@ -1097,29 +1100,39 @@ textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
 
 let checkerInterval = null;
 
-function startComparingText() {
+/* function startComparingText() {
 
     checkerInterval = setInterval(() => {
         textInput.removeEventListener("keydown", startComparingText);
         textToType.innerHTML = checkCorrect(textInput.value, wordsToTypeStr);
     }, 100)
-}
+} */
 
-function checkCorrect(actual, expected) {
+function checkCorrect() {
+    let actual = textInput.value.split(' ');
+    let expected = wordsToTypeArr;
+
+
     let checked = "";
     let temp = "";
     let i = 0;
     let j = 0;
     for (i in actual) {
         if (actual[i] == expected[i]) {
-            checked = checked + expected[i];
+            checked = checked + " " + expected[i];
         } else {
-            checked = checked + "<span class='incorrect'>" + expected[i] + "</span>";
+            checked = checked + " <span class='incorrect'>" + expected[i] + "</span> ";
         }
-        temp = "<span style='color: green' class='correct'>" + checked + "</span>" + expected.substr(++j);
+        temp = " <span style='color: green' class='correct'> "+ checked + "</span> " + expected.slice(++j).toString().replaceAll(",", " ");
     }
-    if (temp != "") return temp;
-    else return actual;
+    console.log(checked)
+    if (temp != "") {
+        textToType.innerHTML = temp;
+    }
+    else{
+        textToType.innerHTML = actual;
+        return actual;
+    }
 }
 
 function calculateAccuracy(text1, text2) {
@@ -1137,11 +1150,30 @@ function calculateWPM(text) {
     return text.length / 5 * 2;
 }
 
+function calculateNetWPM(wpm, accuracy) {
+    return (wpm * accuracy).toPrecision(3);
+}
+
 function logKey() {
     console.log(textInput.value);
 }
 
 /* Listeners */
 
+const keyAction = {
+    ' ': {keydown: checkCorrect},
+}
+
+function keyHandler(event) {
+    console.log(textInput.value.split(' '))
+    console.log(`event.key=${event.key} event.type=${event.type}`);
+    if (!(event.key in keyAction) || !(event.type in keyAction[event.key]))
+        return;
+    keyAction[event.key][event.type]();
+}
+
+textInput.addEventListener("keydown", keyHandler);
 textInput.addEventListener("keydown", startTimer);
-textInput.addEventListener("keydown", startComparingText);
+/* textInput.addEventListener("keydown", startComparingText); */
+
+
