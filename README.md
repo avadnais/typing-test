@@ -9,7 +9,16 @@ Net words per minute (Net WPM) is calculated by multiplying WPM * Accuracy.
 Your browser will cache your highest score so even if you close your browser, your high score will be saved until you clear your cache.
 
 ### Technologies used
-- HTML
-- CSS
-- JavaScript
+  - HTML
+  - CSS
+  - JavaScript
 
+### Roadmap
+  - select time limit
+  - page animations
+  - option to select type of text
+    - random words
+    - random words w/ uppercase
+    - paragraphs pulled from Project Gutenberg
+  - account creation
+  - type with friends
