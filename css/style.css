@@ -45,6 +45,7 @@ html {
 }
 
 .game-box {
+    display: flex;
     border-radius: 2rem;
     margin: 1rem 1rem;
     box-shadow: .2rem .2rem #494b57;
@@ -69,7 +70,6 @@ html {
     padding: 1rem;
     width: 20rem;
     color: #aaa789be;
-    box-shadow: .2rem .2rem #494b57;
     line-height: 1.1;
 }
 

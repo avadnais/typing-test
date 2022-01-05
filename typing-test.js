@@ -1052,7 +1052,6 @@ function startTimer() {
         timer.innerHTML = `<h3>${formatTime(timeLeft)}</h3>`;
         if (timeLeft === 10) under10();
         if (timeLeft === 0) onTimesUp();
-
     }, 1000);
 }
 
