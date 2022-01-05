@@ -13,8 +13,3 @@ Your browser will cache your highest score so even if you close your browser, yo
 - CSS
 - JavaScript
 
-### Concepts used
-- interactivity (event listeners)
-- responsive design with flexbox
-- caching
-
