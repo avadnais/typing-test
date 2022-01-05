@@ -52,7 +52,13 @@ html {
 
 @media screen and (max-width: 940px) {
     .game-box {
-        max-height: 9rem;
+        max-height: 10rem;
+        overflow: hidden;
+    }
+    #text-input {
+        height: 10rem;
+    }
+    #text-to-type {
         overflow: hidden;
     }
 }
@@ -70,7 +76,7 @@ html {
 .text-input textarea {
     border-radius: 2rem;
     background-color: rgba(0,0,0,.2);
-    min-height: 22rem;
+    min-height: 23rem;
     min-width: 20rem;
     padding: 1rem;
     font-size: 1rem;
