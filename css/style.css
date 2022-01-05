@@ -68,6 +68,9 @@ html {
     box-shadow: .2rem .2rem #494b57;
     color: #aaa789be;
 }
+.text-input textarea:focus{
+    outline: none !important;
+}
 
 .results-section {
     display: none;
@@ -109,6 +112,11 @@ button {
     border: 1px solid #494b57;
     padding: .5rem 1rem;
     color:#89C4F4;
+    border-radius: 1.25rem;
+}
+
+button:hover {
+    cursor: pointer;
 }
 
 .result {
@@ -124,4 +132,11 @@ button {
 #net-wpm {
     color: yellow;
     opacity: .7;
+}
+
+.footer p{
+    text-align: center;
+    opacity: .5;
+    font-size: .75rem;
+    margin: 2rem 0;
 }

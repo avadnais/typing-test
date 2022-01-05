@@ -1041,7 +1041,6 @@ function startTimer() {
         timeLeft = TIME_LIMIT - timePassed;
         timer.innerHTML = `<h3>${formatTime(timeLeft)}</h3>`;
         if (timeLeft === 10) under10();
-        if (timeLeft === 5) under5();
         if (timeLeft === 0) onTimesUp();
 
     }, 1000);
@@ -1049,9 +1048,6 @@ function startTimer() {
 
 function under10() {
     setOrange(timer);
-}
-function under5() {
-    //timer.innerHTML = <;
 }
 
 function setOrange() {
@@ -1104,12 +1100,6 @@ function arrAsString(arr) {
     }
     return str;
 }
-/* 
-let wordsToTypeArr = getRandomWords(100);
-let wordsToTypeStr = arrAsString(wordsToTypeArr);
-
-let textToType = document.getElementById("text-to-type");
-textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`; */
 
 /* Character checking */
 
@@ -1261,5 +1251,4 @@ textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
 textInput.addEventListener("keydown", startGame);
 textInput.addEventListener("keydown", keyHandler);
 goAgain.onclick = resetGame;
-
 window.onload = checkCache;
