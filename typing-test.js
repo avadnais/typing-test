@@ -1221,6 +1221,8 @@ function cacheResults(res){
 
 function startGame() {
     textInput.removeEventListener("keydown", startGame);
+    moreTime.onclick = null;
+    lessTime.onclick = null;
     console.log("startGame");
     startTimer();
 }
@@ -1231,8 +1233,9 @@ function resetGame() {
     textInput.value = "";
     getNewWords();
     document.getElementById("text-input-container").style.margin = "";
-    
     textInput.addEventListener("keydown", startGame);
+    moreTime.onclick = increaseTime;
+    lessTime.onclick = decreaseTime;
 }
 
 function resetTimer() {
