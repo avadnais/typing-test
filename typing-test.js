@@ -761,8 +761,6 @@ const allWords = [
     "set",
     "seven",
     "several",
-    "sex",
-    "sexual",
     "shake",
     "share",
     "she",
@@ -1003,7 +1001,7 @@ const allWords = [
 
 /* GLOBAL VARIABLES */
 
-const TIME_LIMIT = 30; //in seconds
+let TIME_LIMIT = 30; //in seconds
 
 let timePassed = 0;
 let timeLeft = TIME_LIMIT;
@@ -1014,6 +1012,8 @@ const timer = document.getElementById("timer");
 const resultsSection = document.getElementById("results-section");
 const gameArea = document.getElementById("game-area");
 const goAgain = document.getElementById("go-again");
+const moreTime = document.getElementById("more");
+const lessTime = document.getElementById("less");
 
 let textToType = document.getElementById("text-to-type");
 
@@ -1075,6 +1075,27 @@ function onTimesUp() {
     document.getElementById("button-container").style.display= 'flex';
     document.getElementById("text-input-container").style.margin = "0";
 
+}
+
+function increaseTime() {
+    if(TIME_LIMIT < 60){
+        TIME_LIMIT += 15;
+        let timeLeft = TIME_LIMIT;
+        timer.innerHTML = `<h3>${formatTime(timeLeft)}</h3>`;
+    }
+    else {
+        alert("Max time limit is 60 seconds");
+    }
+}
+function decreaseTime() {
+    if(TIME_LIMIT > 15){
+        TIME_LIMIT -= 15;
+        let timeLeft = TIME_LIMIT;
+        timer.innerHTML = `<h3>${formatTime(timeLeft)}</h3>`;
+    }
+    else {
+        alert("Minimum time limit is 15 seconds");
+    }
 }
 
 /* Word generator section */
@@ -1209,7 +1230,7 @@ function resetTimer() {
     clearInterval(timerInterval)
     timeLeft = TIME_LIMIT;
     timePassed = 0;
-    timer.innerHTML = '<h3 id="timer">0:30</h3>';
+    timer.innerHTML = `<h3 id="timer">${formatTime(TIME_LIMIT)}</h3>`;
     timer.style.color = "#00D46A";
 }
 
@@ -1251,4 +1272,6 @@ textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
 textInput.addEventListener("keydown", startGame);
 textInput.addEventListener("keydown", keyHandler);
 goAgain.onclick = resetGame;
+moreTime.onclick = increaseTime;
+lessTime.onclick = decreaseTime;
 window.onload = checkCache;
