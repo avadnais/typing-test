@@ -16,7 +16,6 @@
         <div class="header">
             <h1>Welcome to typing test</h1>
             <h3>Type the words as fast as you can for 30 seconds.</h3>
-            <h3>To restart the test, refresh the page.</h3>
         </div>
         <div class="game-area" id="game-area">
             <div class="timer-container">
@@ -26,19 +25,19 @@
                 <p id="text-to-type"><span></span></p>
             </div>
             <div class="text-input game-box" id="text-input-container">
-                <textarea name="text-input" id="text-input" cols="30" rows="10"></textarea>
+                <textarea autofocus name="text-input" id="text-input" cols="30" rows="10"></textarea>
             </div>
         </div>
 
         <div class="results-section" id="results-section">
-            <div class="result">
-                <h3>Results: </h3>
+            <div class="result" id="last-result">
+                <h3 id="results-title"></h3>
                 <p id="wpm"></p>
                 <p id="accuracy"></p>
                 <p id="net-wpm"></p>
             </div>
-            <div class="result">
-                <h3>High Score: </h3>
+            <div class="result" id="high-score">
+                <h3 id="high-score-title"></h3>
                 <p id="best-wpm"></p>
                 <p id="best-accuracy"></p>
                 <p id="best-net-wpm"></p>

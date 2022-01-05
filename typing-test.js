@@ -567,7 +567,6 @@ const allWords = [
     "nothing",
     "notice",
     "now",
-    "n't",
     "number",
     "occur",
     "of",
@@ -1002,7 +1001,7 @@ const allWords = [
 ];
 
 
-/* Timer section */
+/* GLOBAL VARIABLES */
 
 const TIME_LIMIT = 30; //in seconds
 
@@ -1015,6 +1014,10 @@ const timer = document.getElementById("timer");
 const resultsSection = document.getElementById("results-section");
 const gameArea = document.getElementById("game-area");
 const goAgain = document.getElementById("go-again");
+
+let textToType = document.getElementById("text-to-type");
+
+/* Timer section */
 
 let highScoreResult = {
     'wpm': 0,
@@ -1036,9 +1039,7 @@ function startTimer() {
     timerInterval = setInterval(() => {
         timePassed = timePassed += 1;
         timeLeft = TIME_LIMIT - timePassed;
-
         timer.innerHTML = `<h3>${formatTime(timeLeft)}</h3>`;
-
         if (timeLeft === 10) under10();
         if (timeLeft === 5) under5();
         if (timeLeft === 0) onTimesUp();
@@ -1061,9 +1062,8 @@ function onTimesUp() {
     clearInterval(timerInterval);
 
     timer.innerHTML = "<h3>0:00</h3>";
-    timer.style.color = "#ff1a1a";
+    timer.style.color = "#FF6347";
     textInput.style.display = 'none';
-    resultsSection.style.display = 'flex';
     gameArea.style.justifyContent = 'center';
 
 
@@ -1074,6 +1074,7 @@ function onTimesUp() {
     let result = {'wpm': wpm, 'accuracy': accuracy, 'netWpm': netWpm};
     isNewHighScore(result);
     showResults(result);
+    cacheResults(result);
 
     document.getElementById("button-container").style.display= 'flex';
     document.getElementById("text-input-container").style.margin = "0";
@@ -1103,12 +1104,12 @@ function arrAsString(arr) {
     }
     return str;
 }
-
+/* 
 let wordsToTypeArr = getRandomWords(100);
 let wordsToTypeStr = arrAsString(wordsToTypeArr);
 
 let textToType = document.getElementById("text-to-type");
-textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
+textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`; */
 
 /* Character checking */
 
@@ -1127,7 +1128,7 @@ function checkCorrect() {
         } else {
             checked = checked + " <span class='incorrect'>" + expected[i] + "</span> ";
         }
-        temp = " <span style='color: green' class='correct'> " + checked + "</span> " + expected.slice(++j).toString().replaceAll(",", " ");
+        temp = " <span class='correct'> " + checked + "</span> " + expected.slice(++j).toString().replaceAll(",", " ");
     }
     if (temp != "") {
         textToType.innerHTML = temp;
@@ -1165,46 +1166,61 @@ function logKey() {
 /* Results */
 
 function isNewHighScore(res){
-    if(res['netWpm'] > highScoreResult['netWpm'])
+    if(res['netWpm'] > highScoreResult['netWpm']){
         highScoreResult = res;
+    }
 }
 
-function showResults(res) {
-    document.getElementById("wpm").innerHTML = `<p id="wpm">wpm: ${res['wpm']}</p>`;
-    document.getElementById("accuracy").innerHTML = `<p id="accuracy">accuracy: ${res['accuracy']}%</p>`;
-    document.getElementById("net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${res['netWpm']}</p>`;
-
+function showResults(res, fromCached) {
+    resultsSection.style.display = 'flex';
+    document.getElementById("high-score").style.textAlign = 'center';
+    document.getElementById("high-score").style.display = 'block';
+    document.getElementById("high-score").style.margin = '1rem';
+    document.getElementById("high-score-title").innerHTML = `<h3 id="high-score-title">High Score:</h3>`;
     document.getElementById("best-wpm").innerHTML = `<p id="wpm">wpm: ${highScoreResult['wpm']}</p>`;
     document.getElementById("best-accuracy").innerHTML = `<p id="accuracy">accuracy: ${highScoreResult['accuracy']}%</p>`;
     document.getElementById("best-net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${highScoreResult['netWpm']}</p>`;
+    if(!fromCached){
+        document.getElementById("high-score").style.textAlign = 'left';
+        document.getElementById("last-result").style.display = 'block';
+        document.getElementById("last-result").style.margin = '1rem';
+        document.getElementById("results-title").innerHTML = `<h3 id="results-title">Results:</h3>`;
+        document.getElementById("wpm").innerHTML = `<p id="wpm">wpm: ${res['wpm']}</p>`;
+        document.getElementById("accuracy").innerHTML = `<p id="accuracy">accuracy: ${res['accuracy']}%</p>`;
+        document.getElementById("net-wpm").innerHTML = `<p id="net-wpm">net wpm: ${res['netWpm']}</p>`;
+    }
+}
+
+function cacheResults(res){
+    localStorage.setItem('wpm', res['wpm']);
+    localStorage.setItem('accuracy', res['accuracy']);
+    localStorage.setItem('netWpm', res['netWpm']);
 }
 
 /* New game */
 
 function startGame() {
     textInput.removeEventListener("keydown", startGame);
+    console.log("startGame");
     startTimer();
 }
 
 function resetGame() {
+    resetTimer();
     textInput.style.display = null;
     textInput.value = "";
-
     getNewWords();
-    resetTimer();
-
     document.getElementById("text-input-container").style.margin = "";
     
     textInput.addEventListener("keydown", startGame);
-
 }
 
 function resetTimer() {
-    timer.innerHTML = '<h3 id="timer">0:30</h3>';
-    timer.style.color = "green";
+    clearInterval(timerInterval)
     timeLeft = TIME_LIMIT;
     timePassed = 0;
-    timerInterval = null;
+    timer.innerHTML = '<h3 id="timer">0:30</h3>';
+    timer.style.color = "#00D46A";
 }
 
 function getNewWords() {
@@ -1212,6 +1228,16 @@ function getNewWords() {
     wordsToTypeStr = arrAsString(wordsToTypeArr);
     textToType = document.getElementById("text-to-type");
     textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
+}
+
+function checkCache() {
+    let cachedWpm = localStorage.getItem('wpm');
+    let cachedAcc = localStorage.getItem('accuracy');
+    let cachedNetWpm = localStorage.getItem('netWpm');
+    if(cachedWpm && cachedAcc && cachedNetWpm){
+        highScoreResult = {'wpm': cachedWpm, 'accuracy': cachedAcc, 'netWpm': cachedNetWpm};
+        showResults(highScoreResult, true);
+    }
 }
 
 /* Listeners */
@@ -1226,6 +1252,14 @@ function keyHandler(event) {
     keyAction[event.key][event.type]();
 }
 
+
+let wordsToTypeArr = getRandomWords(100);
+let wordsToTypeStr = arrAsString(wordsToTypeArr);
+
+textToType.innerHTML = `<span id="text-to-type">${wordsToTypeStr}</span>`;
+
 textInput.addEventListener("keydown", startGame);
 textInput.addEventListener("keydown", keyHandler);
 goAgain.onclick = resetGame;
+
+window.onload = checkCache;
