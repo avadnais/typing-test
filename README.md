@@ -1,4 +1,4 @@
-# Typing Test
+# [Typing Test](https://avadnais.github.io/typing-test/)
 
 ## A 30 second challenge of your typing skills! 
 The timer starts when you start typing. The text prompt is automatically updated on every <spacebar> press to show whether the last word was correct or not. 
