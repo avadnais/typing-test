@@ -1028,6 +1028,16 @@ let highScoreResult = {
 function formatTime(time) {
     let prettyTime = "";
 
+    if (time >= 60){
+        let minutes = Math.floor(time/60);
+        let seconds = time - 60;
+        return `${minutes}:${formatSeconds(seconds)}`
+    }
+
+    function formatSeconds(seconds){
+        if(seconds < 10) return "0" + seconds
+    }
+
     if (time < 10) {
         return `0:0${time}`;
     }

@@ -82,6 +82,7 @@ html {
     font-size: 1rem;
     border: none;
     color: #aaa789be;
+    resize: none;
 }
 .text-input textarea:focus{
     outline: none !important;
