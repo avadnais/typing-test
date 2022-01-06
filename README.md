@@ -15,6 +15,7 @@ Your browser will cache your highest score so even if you close your browser, yo
 
 ### Roadmap
 - [x] select time limit
+- [ ] cheat detection
 - [ ] page animations
 -  [ ] option to select type of text
     - random words
