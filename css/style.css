@@ -118,6 +118,10 @@ html {
     font-family: monospace;
 }
 
+.change-time:hover {
+    transform: scale(1.1);
+}
+
 .correct {
     color: #00bfff ;
 }
