@@ -14,11 +14,11 @@ Your browser will cache your highest score so even if you close your browser, yo
   - JavaScript
 
 ### Roadmap
-  - select time limit
-  - page animations
-  - option to select type of text
+- [x] select time limit
+- [ ] page animations
+-  [ ] option to select type of text
     - random words
     - random words w/ uppercase
     - paragraphs pulled from Project Gutenberg
-  - account creation
-  - type with friends
+- [ ] account creation
+- [ ] type with friends
